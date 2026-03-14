@@ -1,26 +1,14 @@
-from django.conf import settings
 from django.db import models
-
+from django.utils import timezone
 
 class Warehouse(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
-    city = models.CharField(max_length=100, blank=True, default="")
-    manager = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="managed_warehouses",
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
+    city = models.CharField(max_length=100, blank=True, default='')
+    created_at = models.DateTimeField(default=timezone.now)
+    manager = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True, blank=True, related_name='managed_warehouses')
 
     def __str__(self):
-<<<<<<< HEAD
-        if self.city:
-            return f"{self.name} ({self.city})"
-        return self.name
-=======
         return f"{self.id} - {self.name}"
 
 class WarehouseStock(models.Model):
@@ -33,4 +21,3 @@ class WarehouseStock(models.Model):
 
     def __str__(self):
         return f"{self.warehouse.name} - {self.product_variant} - {self.quantity}"
->>>>>>> 8ef5cc61f27ad82c7ad94cd87a50f916508c98f3

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView, LogoutView
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode
@@ -40,6 +41,13 @@ def index(request):
     warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
     return render(request, 'home/index.html', {'warehouse_name': warehouse_name})
 
+@login_required
+def admin_panel(request):
+    if request.user.role != 1:
+        return redirect('home')
+    warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
+    return render(request, 'home/admin_panel.html', {'warehouse_name': warehouse_name})
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -48,6 +56,8 @@ def user_login(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'Login successful!')
+            if user.role == 1:
+                return redirect('admin_panel')
             return redirect('home')
         else:
             messages.error(request, 'Invalid username or password.')
@@ -102,7 +112,7 @@ def register(request):
         # Log the user in after registration
         login(request, user)
         messages.success(request, 'Registration successful! Welcome to CoreInventory IMS.')
-        return redirect('home')
+        return redirect('warehouses:create')
 
     # Check if warehouses exist, create default if not
     warehouses = Warehouse.objects.all().order_by('id')
