@@ -112,7 +112,7 @@ def register(request):
         # Log the user in after registration
         login(request, user)
         messages.success(request, 'Registration successful! Welcome to CoreInventory IMS.')
-        return redirect('warehouses:create')
+        return redirect('admin_panel')
 
     # Check if warehouses exist, create default if not
     warehouses = Warehouse.objects.all().order_by('id')
