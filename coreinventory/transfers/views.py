@@ -11,7 +11,13 @@ def transfer_request_create(request):
     if request.method == 'POST':
         to_warehouse_id = request.POST.get('to_warehouse')
         product_variant_id = request.POST.get('product_variant')
-        quantity = int(request.POST.get('quantity'))
+        quantity_str = request.POST.get('quantity')
+
+        try:
+            quantity = int(quantity_str)
+        except ValueError:
+            messages.error(request, 'Invalid quantity.')
+            return redirect('transfers:create')
 
         from_warehouse = request.user.warehouse
         to_warehouse = get_object_or_404(Warehouse, id=to_warehouse_id)
@@ -21,12 +27,16 @@ def transfer_request_create(request):
             messages.error(request, 'Cannot transfer to the same warehouse.')
             return redirect('transfers:create')
 
+        if quantity <= 0:
+            messages.error(request, 'Quantity must be positive.')
+            return redirect('transfers:create')
+
         # Check if sender has enough stock
         sender_stock, created = WarehouseStock.objects.get_or_create(
             warehouse=from_warehouse, product_variant=product_variant, defaults={'quantity': 0}
         )
         if sender_stock.quantity < quantity:
-            messages.error(request, 'Insufficient stock in your warehouse.')
+            messages.error(request, f'Insufficient stock. Available: {sender_stock.quantity}')
             return redirect('transfers:create')
 
         TransferRequest.objects.create(
@@ -39,9 +49,8 @@ def transfer_request_create(request):
         messages.success(request, 'Transfer request sent successfully.')
         return redirect('transfers:sent_requests')
 
-    warehouses = Warehouse.objects.exclude(id=request.user.warehouse.id)  # Exclude own warehouse
+    warehouses = Warehouse.objects.exclude(id=request.user.warehouse.id)
     product_variants = ProductVariant.objects.filter(warehouse_stocks__warehouse=request.user.warehouse, warehouse_stocks__quantity__gt=0).distinct()
-    # Temporary: if no variants, show all
     if not product_variants:
         product_variants = ProductVariant.objects.all()
     return render(request, 'transfers/transfer_request_form.html', {

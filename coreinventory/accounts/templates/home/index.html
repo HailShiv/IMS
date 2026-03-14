@@ -148,14 +148,14 @@
                     <div class="card">
                         <div class="card-body text-center">
                             <div class="card-icon text-info">
-                                <i class="fas fa-undo"></i>
+                                <i class="fas fa-exchange-alt"></i>
                             </div>
-                            <h5 class="card-title">Return Unsold Stock</h5>
+                            <h5 class="card-title">Internal Warehouse Transfer</h5>
                             <p class="card-text">
-                                Handle returns and unsold inventory.
+                                Transfer products between warehouses.
                             </p>
-                            <a href="#" class="btn btn-custom"
-                                >Process Returns</a
+                            <a href="{% url 'transfers:create' %}" class="btn btn-custom"
+                                >Create Transfer</a
                             >
                         </div>
                     </div>
