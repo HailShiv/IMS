@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from .models import User
 from warehouses.models import Warehouse
 
@@ -19,6 +19,11 @@ def user_login(request):
         else:
             messages.error(request, 'Invalid username or password.')
     return render(request, 'home/login.html')
+
+def user_logout(request):
+    logout(request)
+    messages.success(request, 'You have been logged out successfully.')
+    return redirect('home')
 
 def register(request):
     if request.method == 'POST':
