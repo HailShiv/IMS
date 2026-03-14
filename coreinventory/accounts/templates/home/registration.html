@@ -160,7 +160,7 @@
                             required
                         >
                             {% for r in roles %}
-                            <option value="{{ r.id }}">{{ r.name }}</option>
+                            <option value="{{ r.id }}" {% if request.GET.role == r.id|stringformat:"s" %}selected{% endif %}>{{ r.name }}</option>
                             {% endfor %}
                         </select>
                         <div id="roleError" class="error-message"></div>
