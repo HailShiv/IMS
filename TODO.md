@@ -1,11 +1,9 @@
-# IMS Landing Page Creation Plan
+# Task Complete: login.html created in Django home app coreinventory/home/templates/home/
 
-## Steps to Complete:
-- [x] Step 1: Create index.html with full HTML structure, hero, features, CTA, footer.
-- [x] Step 2: Create styles.css with light theme styles, responsive design.
-- [x] Step 3: Create script.js with interactive JS.
-- [x] Step 4: Verify files created successfully.
-- [ ] Step 5: Attempt completion with preview command.
+## Completed Steps:
+- [x] Rolled back incorrect location.
+- [x] Created full login.html (light theme, form, JS validation).
+- [x] Verified content.
+- [x] Preview launched.
 
-Tracking progress as steps complete.
-hello milan
+Landing page also complete. Run `cd coreinventory/home/templates/home && start login.html` to view login page. index.html for landing.
