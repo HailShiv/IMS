@@ -29,6 +29,10 @@ def add_to_cart(request, variant_id):
         variant = get_object_or_404(ProductVariant, id=variant_id)
         quantity = int(request.POST.get('quantity', 1))
 
+        if quantity > variant.total_stock:
+            messages.error(request, 'Insufficient stock available.')
+            return redirect('online_orders:product_list')
+
         cart, created = Cart.objects.get_or_create(user=request.user)
         cart_item, created = CartItem.objects.get_or_create(
             cart=cart,
@@ -36,6 +40,9 @@ def add_to_cart(request, variant_id):
             defaults={'quantity': quantity}
         )
         if not created:
+            if cart_item.quantity + quantity > variant.total_stock:
+                messages.error(request, 'Insufficient stock available.')
+                return redirect('online_orders:product_list')
             cart_item.quantity += quantity
             cart_item.save()
 

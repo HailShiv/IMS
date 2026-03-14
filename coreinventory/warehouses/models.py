@@ -6,3 +6,14 @@ class Warehouse(models.Model):
 
     def __str__(self):
         return f"{self.id} - {self.name}"
+
+class WarehouseStock(models.Model):
+    warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE, related_name='stocks')
+    product_variant = models.ForeignKey('products.ProductVariant', on_delete=models.CASCADE, related_name='warehouse_stocks')
+    quantity = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        unique_together = ('warehouse', 'product_variant')
+
+    def __str__(self):
+        return f"{self.warehouse.name} - {self.product_variant} - {self.quantity}"
