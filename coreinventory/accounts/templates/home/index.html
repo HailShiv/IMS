@@ -68,9 +68,9 @@
             </a>
             <div class="navbar-nav ms-auto">
                 <span class="navbar-text me-3">
-                    Welcome, {{ request.user.username }} | Warehouse: {{ warehouse_name }}
+                    Welcome, {{ request.user.username }} | Warehouse: {{ request.user.warehouse }}
                 </span>
-                <a class="btn btn-outline-danger btn-sm" href="{% url 'logout' %}">Logout</a>
+                <a class="btn btn-outline-danger btn-sm" href="{% url 'home' %}?logout=1">Logout</a>
             </div>
         </div>
     </nav>

@@ -5,7 +5,12 @@ from .models import User
 from warehouses.models import Warehouse
 
 def index(request):
-    return render(request, 'home/index.html')
+    if request.GET.get('logout'):
+        from django.contrib.auth import logout
+        logout(request)
+        return redirect('login')
+    warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
+    return render(request, 'home/index.html', {'warehouse_name': warehouse_name})
 
 def user_login(request):
     if request.method == 'POST':
