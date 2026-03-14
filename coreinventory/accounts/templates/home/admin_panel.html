@@ -82,7 +82,7 @@
                 <span class="navbar-text me-3">
                     Welcome, {{ request.user.username }} | Warehouse: {{ warehouse_name }}
                 </span>
-                <a class="btn btn-outline-danger btn-sm" href="{% url 'home' %}?logout=1">Logout</a>
+                {% comment %} <a class="btn btn-outline-danger btn-sm" href="{% url 'home' %}?logout=1">Logout</a> {% endcomment %}
             </div>
         </div>
     </nav>
