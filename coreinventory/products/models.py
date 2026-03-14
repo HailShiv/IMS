@@ -40,8 +40,13 @@ class ProductVariant(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
     size = models.CharField(max_length=20, blank=True)
     color = models.CharField(max_length=50, blank=True)
-    stock_quantity = models.PositiveIntegerField(default=0)
+    stock_quantity = models.PositiveIntegerField(default=0)  # Keep for backward compatibility, but use warehouse stocks
 
     def __str__(self):
         return f"{self.product.name} - {self.size} {self.color}".strip()
+
+    @property
+    def total_stock(self):
+        from warehouses.models import WarehouseStock
+        return sum(stock.quantity for stock in self.warehouse_stocks.all())
 

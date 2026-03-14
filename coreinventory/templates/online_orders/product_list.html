@@ -78,6 +78,7 @@
                 <i class="fas fa-boxes me-2"></i>CoreInventory IMS
             </a>
             <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{% url 'home' %}">Home</a>
                 <a class="nav-link" href="{% url 'online_orders:cart' %}">
                     <i class="fas fa-shopping-cart position-relative">
                         {% if cart_item_dict %}
@@ -116,13 +117,13 @@
                             {% endif %}
                             <p class="card-text">{{ product.description|truncatechars:100 }}</p>
                             <p class="text-primary fw-bold">${{ product.unit_price }}</p>
-                            <p class="text-muted">Stock: {{ variant.stock_quantity }}</p>
+                            <p class="text-muted">Stock: {{ variant.total_stock }}</p>
 
                             <form method="post" action="{% url 'online_orders:add_to_cart' variant.id %}">
                                 {% csrf_token %}
                                 <div class="d-flex align-items-center mb-2">
                                     <label class="me-2">Qty:</label>
-                                    <input type="number" name="quantity" value="1" min="1" max="{{ variant.stock_quantity }}" class="form-control quantity-input">
+                                    <input type="number" name="quantity" value="1" min="1" max="{{ variant.total_stock }}" class="form-control quantity-input">
                                 </div>
                                 <button type="submit" class="btn btn-custom w-100">
                                     <i class="fas fa-cart-plus me-2"></i>Add to Cart
