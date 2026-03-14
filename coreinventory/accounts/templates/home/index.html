@@ -1,162 +1,196 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Dashboard - CoreInventory IMS</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-        }
-        .navbar-brand {
-            font-weight: bold;
-            color: #667eea !important;
-        }
-        .dashboard-header {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-        }
-        .card-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        .btn-custom {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border: none;
-            border-radius: 25px;
-            padding: 0.75rem 1.5rem;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .btn-custom:hover {
-            background: linear-gradient(45deg, #5a6fd8, #6a4190);
-            color: white;
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-boxes me-2"></i>CoreInventory IMS
-            </a>
-            <div class="navbar-nav ms-auto">
-                <span class="navbar-text me-3">
-                    Welcome, {{ request.user.username }} | Warehouse: {{ warehouse_name }}
-                </span>
-                <a class="btn btn-outline-danger btn-sm" href="{% url 'logout' %}">Logout</a>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Staff Dashboard - CoreInventory IMS</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+        />
+        <style>
+            body {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            }
+            .navbar {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            }
+            .navbar-brand {
+                font-weight: bold;
+                color: #667eea !important;
+            }
+            .dashboard-header {
+                background: rgba(255, 255, 255, 0.9);
+                padding: 2rem 0;
+                margin-bottom: 2rem;
+                border-radius: 15px;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            }
+            .card {
+                background: rgba(255, 255, 255, 0.95);
+                border: none;
+                border-radius: 15px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                transition:
+                    transform 0.3s ease,
+                    box-shadow 0.3s ease;
+                height: 100%;
+            }
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            }
+            .card-icon {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+            }
+            .btn-custom {
+                background: linear-gradient(45deg, #667eea, #764ba2);
+                border: none;
+                border-radius: 25px;
+                padding: 0.75rem 1.5rem;
+                color: white;
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+            .btn-custom:hover {
+                background: linear-gradient(45deg, #5a6fd8, #6a4190);
+                color: white;
+                transform: scale(1.05);
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-boxes me-2"></i>CoreInventory IMS
+                </a>
+                <div class="navbar-nav ms-auto">
+                    <span class="navbar-text me-3">
+                        Welcome, {{ request.user.username }} | Warehouse: {{
+                        warehouse_name }}
+                    </span>
+                    <a class="btn btn-outline-danger btn-sm" href="?logout=1"
+                        >Logout</a
+                    >
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-4">
+            <div class="dashboard-header text-center text-dark">
+                <h1 class="display-4 mb-3">
+                    <i class="fas fa-tachometer-alt me-3"></i>Staff Dashboard
+                </h1>
+                <p class="lead">Manage your warehouse operations efficiently</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon text-primary">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <h5 class="card-title">Store Dashboard</h5>
+                            <p class="card-text">
+                                Overview of store operations and metrics.
+                            </p>
+                            <a href="#" class="btn btn-custom"
+                                >Access Dashboard</a
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon text-success">
+                                <i class="fas fa-truck-loading"></i>
+                            </div>
+                            <h5 class="card-title">Receive Inventory</h5>
+                            <p class="card-text">
+                                Manage incoming inventory and stock receipts.
+                            </p>
+                            <a href="#" class="btn btn-custom">Receive Items</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon text-warning">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <h5 class="card-title">Request Products</h5>
+                            <p class="card-text">
+                                Browse and request new products for your
+                                warehouse.
+                            </p>
+                            <a
+                                href="{% url 'online_orders:product_list' %}"
+                                class="btn btn-custom"
+                                >Browse Products</a
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon text-info">
+                                <i class="fas fa-undo"></i>
+                            </div>
+                            <h5 class="card-title">Return Unsold Stock</h5>
+                            <p class="card-text">
+                                Handle returns and unsold inventory.
+                            </p>
+                            <a href="#" class="btn btn-custom"
+                                >Process Returns</a
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon text-secondary">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <h5 class="card-title">Stock Count</h5>
+                            <p class="card-text">
+                                Perform inventory counts and audits.
+                            </p>
+                            <a href="#" class="btn btn-custom">Count Stock</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon text-danger">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h5 class="card-title">Local Reports</h5>
+                            <p class="card-text">
+                                Generate and view local warehouse reports.
+                            </p>
+                            <a href="#" class="btn btn-custom">View Reports</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <div class="container mt-4">
-        <div class="dashboard-header text-center text-dark">
-            <h1 class="display-4 mb-3"><i class="fas fa-tachometer-alt me-3"></i>Staff Dashboard</h1>
-            <p class="lead">Manage your warehouse operations efficiently</p>
-        </div>
-
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div class="card-icon text-primary">
-                            <i class="fas fa-store"></i>
-                        </div>
-                        <h5 class="card-title">Store Dashboard</h5>
-                        <p class="card-text">Overview of store operations and metrics.</p>
-                        <a href="#" class="btn btn-custom">Access Dashboard</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div class="card-icon text-success">
-                            <i class="fas fa-truck-loading"></i>
-                        </div>
-                        <h5 class="card-title">Receive Inventory</h5>
-                        <p class="card-text">Manage incoming inventory and stock receipts.</p>
-                        <a href="#" class="btn btn-custom">Receive Items</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div class="card-icon text-warning">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                        <h5 class="card-title">Request Products</h5>
-                        <p class="card-text">Browse and request new products for your warehouse.</p>
-                        <a href="{% url 'online_orders:product_list' %}" class="btn btn-custom">Browse Products</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div class="card-icon text-info">
-                            <i class="fas fa-exchange-alt"></i>
-                        </div>
-                        <h5 class="card-title">Internal Warehouse Transfer</h5>
-                        <p class="card-text">Transfer products between warehouses.</p>
-                        <a href="{% url 'transfers:create' %}" class="btn btn-custom">Create Transfer</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div class="card-icon text-secondary">
-                            <i class="fas fa-clipboard-list"></i>
-                        </div>
-                        <h5 class="card-title">Stock Count</h5>
-                        <p class="card-text">Perform inventory counts and audits.</p>
-                        <a href="#" class="btn btn-custom">Count Stock</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div class="card-icon text-danger">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <h5 class="card-title">Local Reports</h5>
-                        <p class="card-text">Generate and view local warehouse reports.</p>
-                        <a href="#" class="btn btn-custom">View Reports</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>
