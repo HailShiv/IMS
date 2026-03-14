@@ -1,1 +1,30 @@
-# Admin Panel Implementation (Role 1 Redirect)\n\n## Steps:\n\n- [x] Step 1: Edit coreinventory/accounts/views.py (add admin_panel view, modify user_login for role check)\n- [x] Step 2: Edit coreinventory/accounts/urls.py (add admin_panel URL)\n- [x] Step 3: Create coreinventory/accounts/templates/home/admin_panel.html (admin UI similar to login/index with navbar for warehouse/products)\n- [ ] Step 4: Test: python manage.py runserver, register/login as role=1 user, verify redirect/UI/navbar\n\n## Status: Completed Steps 1-3. Ready for testing.\n
+# Task: Add Product CRUD (Create, Read, Update, Delete) for products_product table
+
+## Information Gathered:
+
+- models.py: Product (name, description, category FK, sku unique, barcode, unit_price, cost_price, reorder_level, image URL, is_active)
+- views.py/urls.py/admin.py: Empty
+- templates: None
+- Goal: Non-admin CRUD for auth users (add, list catalog, edit, delete, toggle active)
+
+## Plan:
+
+1. products/admin.py: Register Product/Category for admin
+2. products/views.py: ListView, CreateView, UpdateView, DeleteView, ToggleActiveView
+3. products/urls.py: Patterns for CRUD
+4. products/templates/products/: list.html, form.html, confirm_delete.html
+5. Add nav link to accounts/templates/home/index.html
+6. Migrate if needed
+
+## Dependent Files:
+
+- accounts/templates/home/index.html (nav link)
+
+## Followup Steps:
+
+1. python manage.py makemigrations products
+2. python manage.py migrate
+3. python manage.py createsuperuser (if needed)
+4. Test: /products/ list → add → catalog → edit/delete/active toggle
+
+Confirm plan before implementing?
