@@ -1,22 +1,32 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
+from .models import User
+from stores.models import Warehouse
 
 def index(request):
     return render(request, 'home/index.html')
 
 def user_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'Login successful!')
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password.')
     return render(request, 'home/login.html')
 
 def register(request):
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
+        warehouse_id = request.POST['warehouse']
 
         # Validation
         if password1 != password2:
@@ -36,18 +46,23 @@ def register(request):
             return redirect('register')
 
         # Create user
+        try:
+            warehouse = Warehouse.objects.get(id=warehouse_id)
+        except Warehouse.DoesNotExist:
+            messages.error(request, 'Invalid warehouse selected.')
+            return redirect('register')
+
         user = User.objects.create_user(
             username=username,
             email=email,
-            first_name=first_name,
-            last_name=last_name,
-            password=password1
+            password=password1,
+            warehouse=warehouse
         )
-        user.save()
 
         # Log the user in after registration
         login(request, user)
         messages.success(request, 'Registration successful! Welcome to CoreInventory IMS.')
-        return redirect('home')  # Assuming 'home' is the name for index
+        return redirect('home')
 
-    return render(request, 'home/registration.html')
+    warehouses = Warehouse.objects.all()
+    return render(request, 'home/registration.html', {'warehouses': warehouses})
