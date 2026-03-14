@@ -35,10 +35,9 @@ class CustomPasswordResetCompleteView(PasswordResetCompleteView):
 
 def index(request):
     if request.GET.get('logout'):
-        from django.contrib.auth import logout
         logout(request)
         return redirect('login')
-    warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
+    warehouse_name = getattr(request.user.warehouse, 'name', 'N/A') if request.user.is_authenticated else 'N/A'
     return render(request, 'home/index.html', {'warehouse_name': warehouse_name})
 
 def user_login(request):
