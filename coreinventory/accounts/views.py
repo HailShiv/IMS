@@ -43,8 +43,6 @@ def index(request):
 
 @login_required
 def admin_panel(request):
-    if request.user.role != 1:
-        return redirect('home')
     warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
     return render(request, 'home/admin_panel.html', {'warehouse_name': warehouse_name})
 
