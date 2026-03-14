@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView, LogoutView
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
@@ -33,11 +33,10 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'home/password_reset_complete.html'
 
+class CustomLogoutView(LogoutView):
+    next_page = 'login'
+
 def index(request):
-    if request.GET.get('logout'):
-        from django.contrib.auth import logout
-        logout(request)
-        return redirect('login')
     warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
     return render(request, 'home/index.html', {'warehouse_name': warehouse_name})
 
