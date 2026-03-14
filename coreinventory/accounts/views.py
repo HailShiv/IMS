@@ -27,6 +27,7 @@ def register(request):
         password1 = request.POST['password1']
         password2 = request.POST['password2']
         warehouse_id = request.POST['warehouse']
+        role = request.POST['role']
 
         # Validation
         if password1 != password2:
@@ -51,6 +52,11 @@ def register(request):
             messages.error(request, 'Invalid warehouse selected.')
             return redirect('register')
 
+        role = int(role)
+        if role not in [1,2]:
+            messages.error(request, 'Invalid role selected.')
+            return redirect('register')
+
         try:
             warehouse = Warehouse.objects.get(id=warehouse_id)
         except Warehouse.DoesNotExist:
@@ -62,6 +68,7 @@ def register(request):
             username=username,
             email=email,
             password=password1,
+            role=role,
             warehouse=warehouse
         )
 
@@ -70,10 +77,14 @@ def register(request):
         messages.success(request, 'Registration successful! Welcome to CoreInventory IMS.')
         return redirect('home')
 
-    # Static warehouses for dropdown
+    # Static warehouses and roles for dropdown
     static_warehouses = [
         {'id': 1, 'name': 'ahmedabad'},
         {'id': 2, 'name': 'surat'},
         {'id': 3, 'name': 'vadodara'},
     ]
-    return render(request, 'home/registration.html', {'warehouses': static_warehouses})
+    static_roles = [
+        {'id': 1, 'name': 'Head Manager'},
+        {'id': 2, 'name': 'Warehouse Manager'},
+    ]
+    return render(request, 'home/registration.html', {'warehouses': static_warehouses, 'roles': static_roles})

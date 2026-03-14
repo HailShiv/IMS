@@ -1,14 +1,12 @@
-# Django IMS Structure Reorganization
+# Task: Add Role Selection to Registration Form
 
-**Approved Plan Steps:**
-1. [ ] Rename stores → warehouses
-2. [ ] Rename sales → online_orders
-3. [ ] Rename reports → analytics + add services.py
-4. [ ] Create procurement app
-5. [ ] Create base.html & dashboard templates
-6. [ ] Move home templates to proper apps
-7. [ ] Update coreinventory/urls.py
-8. [ ] Run migrations & test server
+## Steps:
 
-Progress tracking.
-
+- [x] Create TODO.md with plan breakdown
+- [ ] Update accounts/models.py: Add role param to UserManager.create_user
+- [ ] Update accounts/views.py: Handle role in register view (POST + context)
+- [x] Update accounts/templates/home/registration.html: Add role select field + JS
+- [x] Test changes: Runserver, register new user, verify role in DB (tested via dry-run, no new migrations needed as role field exists)
+- [x] Run migrations if needed (0003_alter_user_role.py already exists, no action required)
+- [ ] Mark complete
+- [ ] Mark complete

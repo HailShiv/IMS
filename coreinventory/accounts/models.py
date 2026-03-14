@@ -3,12 +3,14 @@ from django.db import models
 from warehouses.models import Warehouse
 
 class UserManager(BaseUserManager):
-    def create_user(self, username, email, password=None, **extra_fields):
+    def create_user(self, username, email, password=None, role=None, **extra_fields):
         if not email:
             raise ValueError('Email is required')
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, **extra_fields)
         user.set_password(password)
+        if role is not None:
+            user.role = role
         user.save(using=self._db)
         return user
 
@@ -21,7 +23,7 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)
-    role = models.IntegerField(default=2)
+    role = models.IntegerField(choices=[(1, "Head Manager"), (2, "Warehouse Manager")], default=2)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     # is_active and is_staff managed by AbstractUser
