@@ -7,10 +7,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('accounts/', include('accounts.urls')),
-    path('stores/', include('stores.urls')),
+    path('warehouses/', include('warehouses.urls')),
     path('products/', include('products.urls')),
     path('inventory/', include('inventory.urls')),
+    path('procurement/', include('procurement.urls')),
     path('transfers/', include('transfers.urls')),
-    path('sales/', include('sales.urls')),
-    path('reports/', include('reports.urls')),
+    path('online_orders/', include('online_orders.urls')),
+    path('analytics/', include('analytics.urls')),
 ]

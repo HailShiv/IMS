@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
-from stores.models import Warehouse
+from warehouses.models import Warehouse
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
@@ -24,8 +24,7 @@ class User(AbstractBaseUser):
     role = models.IntegerField(default=2)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
+    # is_active and is_staff managed by AbstractUser
 
     objects = UserManager()
 

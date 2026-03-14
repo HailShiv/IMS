@@ -39,12 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'accounts',
-    'stores',
+    'warehouses',
     'products',
     'inventory',
+    'procurement',
     'transfers',
-    'sales',
-    'reports',
+    'online_orders',
+    'analytics',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'

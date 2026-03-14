@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from .models import User
-from stores.models import Warehouse
+from warehouses.models import Warehouse
 
 def index(request):
     return render(request, 'home/index.html')
@@ -45,12 +45,18 @@ def register(request):
             messages.error(request, 'Email already exists.')
             return redirect('register')
 
-        # Create user
+        # Static warehouse IDs (assume they exist or create on fly if allowed)
+        warehouse_id = int(warehouse_id)
+        if warehouse_id not in [1,2,3]:
+            messages.error(request, 'Invalid warehouse selected.')
+            return redirect('register')
+
         try:
             warehouse = Warehouse.objects.get(id=warehouse_id)
         except Warehouse.DoesNotExist:
-            messages.error(request, 'Invalid warehouse selected.')
-            return redirect('register')
+            # Fallback create if not exists (for dev)
+            warehouse = Warehouse.objects.create(id=warehouse_id, name=['ahmedabad','surat','vadodara'][warehouse_id-1])
+            messages.warning(request, 'Warehouse created (dev mode).')
 
         user = User.objects.create_user(
             username=username,
@@ -64,5 +70,10 @@ def register(request):
         messages.success(request, 'Registration successful! Welcome to CoreInventory IMS.')
         return redirect('home')
 
-    warehouses = Warehouse.objects.all()
-    return render(request, 'home/registration.html', {'warehouses': warehouses})
+    # Static warehouses for dropdown
+    static_warehouses = [
+        {'id': 1, 'name': 'ahmedabad'},
+        {'id': 2, 'name': 'surat'},
+        {'id': 3, 'name': 'vadodara'},
+    ]
+    return render(request, 'home/registration.html', {'warehouses': static_warehouses})

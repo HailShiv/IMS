@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import User
-from stores.models import Warehouse
+# Warehouse admin registered in warehouses/admin.py
 
 admin.site.register(User)
-admin.site.register(Warehouse)
+
