@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -74,3 +75,15 @@ def product_toggle_active(request, pk):
     product.save()
     messages.success(request, f'Product {"activated" if product.is_active else "deactivated"} successfully!')
     return redirect('products:product_list')
+=======
+from django.shortcuts import render
+from .models import Product
+
+def product_list(request):
+    products = Product.objects.filter(is_active=True).select_related('category')[:20]  # Limit for performance
+    context = {
+        'products': products,
+        'total_products': Product.objects.filter(is_active=True).count(),
+    }
+    return render(request, 'products/product_list.html', context)
+>>>>>>> Stashed changes

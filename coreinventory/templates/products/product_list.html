@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog - IMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-boxes me-2"></i>IMS Product Catalog
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{% url 'accounts:dashboard' %}">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Product Catalog ({{ total_products }} products)</h2>
+            <a href="{% url 'accounts:dashboard' %}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <div class="row g-4">
+            {% for product in products %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    {% if product.image %}
+                    <img src="{{ product.image }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="fas fa-box fas fa-3x text-muted"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text"><small class="text-muted">SKU: {{ product.sku }}</small></p>
+                        {% if product.category %}
+                        <p class="card-text"><small class="badge bg-secondary">{{ product.category.name }}</small></p>
+                        {% endif %}
+                        <p class="card-text fw-bold text-success fs-5">₹{{ product.unit_price }}</p>
+                        <p class="card-text">{{ product.description|truncatewords:15 }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Reorder Level: {{ product.reorder_level }}</small>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-box-open fa-3x mb-3"></i>
+                    <h4>No products available</h4>
+                    <p>The product catalog is empty. Contact admin to add products.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if products %}
+        <div class="mt-5 text-center">
+            <p class="text-muted">Showing {{ products|length }} of {{ total_products }} products</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
