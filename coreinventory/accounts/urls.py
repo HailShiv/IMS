@@ -5,6 +5,9 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('login/', views.user_login, name='login'),
     path('register/', views.register, name='register'),
-    path('admin_panel/', views.admin_panel, name='admin_panel'),
-    path('logout/', views.user_logout, name='logout'),
+    path('logout/', views.CustomLogoutView.as_view(), name='logout'),
+    path('password_reset/', views.CustomPasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', views.CustomPasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', views.CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('password_reset/complete/', views.CustomPasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]
