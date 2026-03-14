@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - CoreInventory IMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #667eea !important;
+        }
+        .nav-link {
+            color: #495057 !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #667eea !important;
+        }
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .btn-custom {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-custom:hover {
+            background: linear-gradient(45deg, #5a6fd8, #6a4190);
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-boxes me-2"></i>CoreInventory IMS
+            </a>
+            <div class="navbar-nav me-auto">
+                <a class="nav-link" href="/warehouses/"><i class="fas fa-warehouse me-1"></i>Warehouse</a>
+                <a class="nav-link" href="/products/"><i class="fas fa-box me-1"></i>Products</a>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text me-3">
+                    Welcome, {{ request.user.username }} | Warehouse: {{ warehouse_name }}
+                </span>
+                <a class="btn btn-outline-danger btn-sm" href="{% url 'home' %}?logout=1">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="dashboard-header text-center text-dark">
+            <h1 class="display-4 mb-3"><i class="fas fa-crown me-3"></i>Admin Panel</h1>
+            <p class="lead">System-wide management and oversight</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="card-icon text-primary">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        <h5 class="card-title">Warehouse Management</h5>
+                        <p class="card-text">Manage all warehouses across the system.</p>
+                        <a href="/warehouses/" class="btn btn-custom">Manage Warehouses</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="card-icon text-success">
+                            <i class="fas fa-boxes-stacked"></i>
+                        </div>
+                        <h5 class="card-title">Product Catalog</h5>
+                        <p class="card-text">Central product management and catalog.</p>
+                        <a href="/products/" class="btn btn-custom">Manage Products</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="card-icon text-info">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5 class="card-title">User Management</h5>
+                        <p class="card-text">Manage users, roles, and permissions.</p>
+                        <a href="#" class="btn btn-custom">Manage Users</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="card-icon text-warning">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5 class="card-title">System Analytics</h5>
+                        <p class="card-text">View system-wide reports and analytics.</p>
+                        <a href="/analytics/" class="btn btn-custom">View Analytics</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="card-icon text-secondary">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h5 class="card-title">System Settings</h5>
+                        <p class="card-text">Configure system parameters and settings.</p>
+                        <a href="#" class="btn btn-custom">System Settings</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="card-icon text-danger">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <h5 class="card-title">Global Reports</h5>
+                        <p class="card-text">Generate comprehensive business reports.</p>
+                        <a href="#" class="btn btn-custom">Generate Reports</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

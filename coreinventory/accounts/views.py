@@ -12,6 +12,10 @@ def index(request):
     warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
     return render(request, 'home/index.html', {'warehouse_name': warehouse_name})
 
+def admin_panel(request):
+    warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
+    return render(request, 'home/admin_panel.html', {'warehouse_name': warehouse_name})
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -20,6 +24,8 @@ def user_login(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'Login successful!')
+            if user.role == 1:
+                return redirect('admin_panel')
             return redirect('home')
         else:
             messages.error(request, 'Invalid username or password.')
