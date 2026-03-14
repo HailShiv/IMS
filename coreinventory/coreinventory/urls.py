@@ -19,5 +19,26 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('home.urls')),
+
+    # 🔐 Accounts (login, users, roles)
+    path('accounts/', include('accounts.urls')),
+
+    # 🏬 Stores & Warehouses
+    path('stores/', include('stores.urls')),
+
+    # 📦 Product Catalog
+    path('products/', include('products.urls')),
+
+    # 📊 Inventory Management
+    path('inventory/', include('inventory.urls')),
+
+    # 🔄 Stock Transfers
+    path('transfers/', include('transfers.urls')),
+
+    # 💰 Sales / POS
+    path('sales/', include('sales.urls')),
+
+    # 📈 Reports & Analytics
+    path('reports/', include('reports.urls')),
 ]
+
