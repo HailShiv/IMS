@@ -38,12 +38,28 @@ class CustomLogoutView(LogoutView):
     next_page = 'login'
 
 def index(request):
-    warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
+    warehouse_name = 'N/A'
+    if request.user.is_authenticated:
+        if request.user.role == 1:
+            warehouse_name = 'All Warehouses'
+        else:
+            try:
+                warehouse_name = request.user.warehouse.name
+            except:
+                warehouse_name = 'N/A'
     return render(request, 'home/index.html', {'warehouse_name': warehouse_name})
 
 @login_required
 def admin_panel(request):
-    warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
+    warehouse_name = 'N/A'
+    if request.user.is_authenticated:
+        if request.user.role == 1:
+            warehouse_name = 'All Warehouses'
+        else:
+            try:
+                warehouse_name = request.user.warehouse.name
+            except:
+                warehouse_name = 'N/A'
     return render(request, 'home/admin_panel.html', {'warehouse_name': warehouse_name})
 
 def user_login(request):

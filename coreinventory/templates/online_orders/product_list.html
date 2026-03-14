@@ -34,11 +34,6 @@
             transform: translateY(-5px);
             box-shadow: 0 12px 40px rgba(0,0,0,0.15);
         }
-        .product-image {
-            height: 200px;
-            object-fit: cover;
-            border-radius: 15px 15px 0 0;
-        }
         .btn-custom {
             background: linear-gradient(45deg, #667eea, #764ba2);
             border: none;
@@ -103,13 +98,6 @@
                 {% for variant in product.variants.all %}
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="product-card">
-                        {% if product.image %}
-                        <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image w-100">
-                        {% else %}
-                        <div class="product-image bg-secondary d-flex align-items-center justify-content-center">
-                            <i class="fas fa-image fa-3x text-white"></i>
-                        </div>
-                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ product.name }}</h5>
                             {% if variant.size or variant.color %}
