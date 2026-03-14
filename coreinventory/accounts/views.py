@@ -1,11 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from .models import User
 from warehouses.models import Warehouse
 
 def index(request):
-    return render(request, 'home/index.html')
+    if request.user.is_authenticated:
+        context = {
+            'warehouse_name': request.user.warehouse.name,
+            'warehouse_id': request.user.warehouse.id,
+        }
+        return render(request, 'home/index.html', context)
+    else:
+        return redirect('login')
 
 def user_login(request):
     if request.method == 'POST':
@@ -77,3 +84,8 @@ def register(request):
         {'id': 3, 'name': 'vadodara'},
     ]
     return render(request, 'home/registration.html', {'warehouses': static_warehouses})
+
+def user_logout(request):
+    logout(request)
+    messages.info(request, 'You have been logged out.')
+    return redirect('login')
