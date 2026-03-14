@@ -1,16 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from .models import User
 from warehouses.models import Warehouse
 
 def index(request):
-    if request.GET.get('logout'):
-        from django.contrib.auth import logout
-        logout(request)
-        return redirect('login')
-    warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
-    return render(request, 'home/index.html', {'warehouse_name': warehouse_name})
+    return render(request, 'home/index.html')
 
 def admin_panel(request):
     warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
@@ -30,6 +25,11 @@ def user_login(request):
         else:
             messages.error(request, 'Invalid username or password.')
     return render(request, 'home/login.html')
+
+def user_logout(request):
+    logout(request)
+    messages.success(request, 'You have been logged out successfully.')
+    return redirect('home')
 
 def register(request):
     if request.method == 'POST':

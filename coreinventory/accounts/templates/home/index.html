@@ -68,9 +68,9 @@
             </a>
             <div class="navbar-nav ms-auto">
                 <span class="navbar-text me-3">
-                    Welcome, {{ request.user.username }} | Warehouse: {{ request.user.warehouse }}
+                    Welcome, {{ request.user.username }} | Warehouse: {{ warehouse_name }}
                 </span>
-                <a class="btn btn-outline-danger btn-sm" href="{% url 'home' %}?logout=1">Logout</a>
+                <a class="btn btn-outline-danger btn-sm" href="{% url 'logout' %}">Logout</a>
             </div>
         </div>
     </nav>
@@ -110,11 +110,11 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <div class="card-icon text-warning">
-                            <i class="fas fa-cash-register"></i>
+                            <i class="fas fa-shopping-cart"></i>
                         </div>
-                        <h5 class="card-title">POS Sales</h5>
-                        <p class="card-text">Point of Sale system for transactions.</p>
-                        <a href="#" class="btn btn-custom">Start Selling</a>
+                        <h5 class="card-title">Request Products</h5>
+                        <p class="card-text">Browse and request new products for your warehouse.</p>
+                        <a href="{% url 'online_orders:product_list' %}" class="btn btn-custom">Browse Products</a>
                     </div>
                 </div>
             </div>
