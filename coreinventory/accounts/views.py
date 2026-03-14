@@ -5,7 +5,8 @@ from .models import User
 from warehouses.models import Warehouse
 
 def index(request):
-    return render(request, 'home/index.html')
+    warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
+    return render(request, 'home/index.html', {'warehouse_name': warehouse_name})
 
 def admin_panel(request):
     warehouse_name = request.user.warehouse.name if request.user.is_authenticated else 'N/A'
