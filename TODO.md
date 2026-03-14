@@ -1,12 +1,1 @@
-# Task: Add Role Selection to Registration Form
-
-## Steps:
-
-- [x] Create TODO.md with plan breakdown
-- [ ] Update accounts/models.py: Add role param to UserManager.create_user
-- [ ] Update accounts/views.py: Handle role in register view (POST + context)
-- [x] Update accounts/templates/home/registration.html: Add role select field + JS
-- [x] Test changes: Runserver, register new user, verify role in DB (tested via dry-run, no new migrations needed as role field exists)
-- [x] Run migrations if needed (0003_alter_user_role.py already exists, no action required)
-- [ ] Mark complete
-- [ ] Mark complete
+# Admin Panel Implementation (Role 1 Redirect)\n\n## Steps:\n\n- [x] Step 1: Edit coreinventory/accounts/views.py (add admin_panel view, modify user_login for role check)\n- [x] Step 2: Edit coreinventory/accounts/urls.py (add admin_panel URL)\n- [x] Step 3: Create coreinventory/accounts/templates/home/admin_panel.html (admin UI similar to login/index with navbar for warehouse/products)\n- [ ] Step 4: Test: python manage.py runserver, register/login as role=1 user, verify redirect/UI/navbar\n\n## Status: Completed Steps 1-3. Ready for testing.\n
